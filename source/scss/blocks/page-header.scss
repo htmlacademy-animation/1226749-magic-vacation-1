@@ -237,30 +237,30 @@
   }
 
   a {
+    $time: 0.3s;
+    $tf: ease;
+
     position: relative;
     display: block;
     color: inherit;
     padding: 0 0.5em 0.5em;
+    transition: color $time $tf;
 
     &::after {
       content: "";
       position: absolute;
+      right: 0;
       bottom: 0;
-      width: 100%;
+      width: 0;
       height: 2px;
       background-color: $c-light;
-      display: none;
-      left: 0;
+      display: block;
+      transition:
+        width $time $tf,
+        background-color $time $tf;
 
-      @media (max-width: $tablet) and (orientation: portrait) {
-        left: 0;
-        right: 0;
-        background-color: $c-dark;
-      }
-
-      @media (max-width: $mobile) and (orientation: landscape) {
-        left: 0;
-        right: 0;
+      @media (max-width: $tablet) and (orientation: portrait),
+      (max-width: $mobile) and (orientation: landscape) {
         background-color: $c-dark;
       }
     }
@@ -268,6 +268,7 @@
     &.active {
       &::after {
         display: block;
+        width: 100%;
       }
     }
 
@@ -277,6 +278,8 @@
       outline: none;
 
       &::after {
+        left: 0;
+        width: 100%;
         opacity: 1;
         background-color: $c-purple;
       }
