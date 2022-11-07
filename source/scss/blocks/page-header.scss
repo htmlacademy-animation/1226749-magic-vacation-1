@@ -260,7 +260,7 @@
         background-color $time $tf;
 
       @media (max-width: $tablet) and (orientation: portrait),
-      (max-width: $mobile) and (orientation: landscape) {
+        (max-width: $mobile) and (orientation: landscape) {
         background-color: $c-dark;
       }
     }
