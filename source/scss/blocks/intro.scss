@@ -87,12 +87,20 @@
 }
 
 .intro__message {
+  $time: 0.4s;
+  $tf: ease;
+
   flex: none;
   width: 50.9rem;
   max-width: 50%;
   text-transform: uppercase;
   font-size: 2.4rem;
   line-height: 1.27;
+  opacity: 0;
+  transform: translateY(32px);
+  transition:
+    opacity $time $tf,
+    transform $time $tf;
 
   @media (min-width: $stop-scaling) {
     width: 509px;
@@ -133,6 +141,11 @@
       height: 1.1rem;
     }
   }
+}
+
+.screen--intro.active .intro__message {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .intro__label {
