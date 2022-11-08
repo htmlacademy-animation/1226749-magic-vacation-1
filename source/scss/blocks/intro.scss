@@ -99,8 +99,8 @@
   opacity: 0;
   transform: translateY(32px);
   transition:
-    opacity $time $tf,
-    transform $time $tf;
+    opacity $time $tf $screen_footer_time,
+    transform $time $tf $screen_footer_time;
 
   @media (min-width: $stop-scaling) {
     width: 509px;
