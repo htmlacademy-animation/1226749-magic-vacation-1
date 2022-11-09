@@ -46,6 +46,8 @@
   color: $c-dark;
   background-color: $c-light;
   z-index: 1;
+  transform: translateY(0);
+  transition: transform $screen-footer-time $ctf;
 
   @media (max-width: $tablet) and (orientation: portrait) {
     width: 3.5rem;
@@ -68,6 +70,10 @@
       height: 16rem;
     }
   }
+}
+
+body:not(.loaded) .screen__footer {
+  transform: translateY(100%);
 }
 
 .screen__footer-wrapper {

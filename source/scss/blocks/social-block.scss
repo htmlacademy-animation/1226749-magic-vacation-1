@@ -85,9 +85,11 @@
     background-color: $c-light;
     border: 2px solid $c-light;
     z-index: -1;
+    transform: translate(-50%, -50%) scale(1);
     transition:
       width $time $tf,
-      height $time $tf;
+      height $time $tf,
+      transform 0.4s $bounce_tf $page_header_social_delay;
   }
 
   svg {
@@ -116,6 +118,10 @@
       border-color: $c-purple;
     }
   }
+}
+
+body:not(.loaded) .social-block__toggler::before {
+  transform: translate(-50%, -50%) scale(0);
 }
 
 .social-block__list {
