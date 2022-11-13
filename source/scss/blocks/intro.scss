@@ -87,8 +87,8 @@
 }
 
 .intro__message {
-  $time: 0.4s;
-  $tf: ease;
+  --time: #{$time_long};
+  --delay: 0.7s;
 
   flex: none;
   width: 50.9rem;
@@ -97,10 +97,10 @@
   font-size: 2.4rem;
   line-height: 1.27;
   opacity: 0;
-  transform: translateY(32px);
+  transform: translateY(4rem);
   transition:
-    opacity $time $tf $screen_footer_time,
-    transform $time $tf $screen_footer_time;
+    opacity var(--time) $time_function var(--delay),
+    transform var(--time) $time_function var(--delay);
 
   @media (min-width: $stop-scaling) {
     width: 509px;
@@ -108,6 +108,9 @@
   }
 
   @media (max-width: $tablet) and (orientation: portrait) {
+    --time: #{$time_medium};
+    --delay: 0.5s;
+
     width: 100%;
     max-width: 100%;
     font-size: 1.6rem;

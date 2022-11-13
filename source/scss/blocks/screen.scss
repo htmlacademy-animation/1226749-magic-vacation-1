@@ -47,7 +47,7 @@
   background-color: $c-light;
   z-index: 1;
   transform: translateY(0);
-  transition: transform $screen-footer-time $ctf;
+  transition: transform $time_long $custom_time_function;
 
   @media (max-width: $tablet) and (orientation: portrait) {
     width: 3.5rem;

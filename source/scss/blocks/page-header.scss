@@ -27,6 +27,8 @@
 }
 
 .page-header__logo {
+  $time_delay: calc(0.5 * #{$time_long});
+
   @include hover;
   position: relative;
   flex: none;
@@ -38,8 +40,8 @@
   opacity: 1;
   transform: translateX(0);
   transition:
-    opacity $page_header_logo_time $ctf $page_header_logo_delay,
-    transform $page_header_logo_time $ctf $page_header_logo_delay;
+    opacity $time_medium $custom_time_function $time_delay,
+    transform $time_medium $custom_time_function $time_delay;
 
   @media (min-width: $stop-scaling) {
     top: -5px;
@@ -78,7 +80,7 @@
 
 body:not(.loaded) .page-header__logo {
   opacity: 0;
-  transform: translateX(-20px);
+  transform: translateX(-2rem);
 }
 
 .page-header__toggler {
@@ -91,6 +93,8 @@ body:not(.loaded) .page-header__logo {
   background-color: $c-light;
   border-radius: 50%;
   z-index: 1;
+  transform: scale(1);
+  transition: transform calc(1.3 * #{$time_medium}) $bounce_time_function 0.45s;
 
   @media (max-width: $tablet) and (orientation: portrait) {
     display: block;
@@ -137,11 +141,15 @@ body:not(.loaded) .page-header__logo {
   }
 }
 
+body:not(.loaded) .page-header__toggler {
+  transform: scale(0);
+}
+
 .page-header__nav {
   display: flex;
   align-items: center;
   opacity: 1;
-  transition: opacity 0.5s $ctf $page_header_nav_delay;
+  transition: opacity $time_long $custom_time_function 0.35s;
 
   @media (max-width: $tablet) and (orientation: portrait) {
     position: fixed;
@@ -253,27 +261,26 @@ body:not(.loaded) .page-header__nav {
   }
 
   a {
-    $time: 0.3s;
-    $tf: ease;
-
     position: relative;
     display: block;
     color: inherit;
     padding: 0 0.5em 0.5em;
-    transition: color $time $tf;
+    transition: color $time_medium $time_function;
 
     &::after {
       content: "";
       position: absolute;
       right: 0;
       bottom: 0;
-      width: 0;
+      width: 100%;
       height: 2px;
       background-color: $c-light;
       display: block;
+      transform: scaleX(0);
+      transform-origin: right;
       transition:
-        width $time $tf,
-        background-color $time $tf;
+        transform $time_medium $time_function,
+        background-color $time_medium $time_function;
 
       @media (max-width: $tablet) and (orientation: portrait),
         (max-width: $mobile) and (orientation: landscape) {
@@ -283,12 +290,12 @@ body:not(.loaded) .page-header__nav {
 
     &.active {
       &::after {
-        left: 0;
+        transform-origin: left;
         display: block;
-        width: 100%;
+        transform: scaleX(1);
         transition:
-          width $time $tf $page_header_nav_line_delay,
-          background-color $time $tf;
+          transform $time_medium $time_function 0.48s,
+          background-color $time_medium $time_function;
       }
     }
 
@@ -298,8 +305,8 @@ body:not(.loaded) .page-header__nav {
       outline: none;
 
       &::after {
-        left: 0;
-        width: 100%;
+        transform-origin: left;
+        transform: scaleX(1);
         opacity: 1;
         background-color: $c-purple;
       }
@@ -308,7 +315,7 @@ body:not(.loaded) .page-header__nav {
 }
 
 body:not(.loaded) .page-header__menu a.active::after {
-  width: 0;
+  transform: scaleX(0);
 }
 
 .page-header__social {

@@ -45,8 +45,8 @@
   outline: none;
   opacity: 0;
   transition:
-    opacity 0.1s ease,
-    width 0.5s ease 0.05s;
+    opacity $time_short $time_function,
+    width $time_long $time_function 0.05s;
 
   &:focus {
     border: 1px solid $c-purple;
