@@ -30,6 +30,8 @@
 }
 
 .form__field {
+  --delay: 0s;
+
   flex: none;
   margin-right: 3rem;
   padding: 0 5.6rem;
@@ -45,8 +47,8 @@
   outline: none;
   opacity: 0;
   transition:
-    opacity $time_short $time_function,
-    width $time_long $time_function 0.05s;
+    opacity $time_short $time_function var(--delay),
+    width $time_long $time_function calc(var(--delay) + 0.05s);
 
   &:focus {
     border: 1px solid $c-purple;
@@ -96,6 +98,10 @@
       width: calc(100% - 5rem);
     }
   }
+}
+
+.screen--story.prev-active ~ .screen--game.active .form__field {
+  --delay: #{$time_long};
 }
 
 .form__button {

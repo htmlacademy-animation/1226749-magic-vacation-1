@@ -131,7 +131,7 @@
   }
 }
 
-.swiper-wrapper {
+.screen.active .swiper-wrapper {
   .swiper-slide-active,
   .swiper-slide-next {
     --delay: #{$time_medium};
