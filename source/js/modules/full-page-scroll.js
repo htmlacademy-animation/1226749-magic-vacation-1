@@ -1,5 +1,8 @@
 import throttle from 'lodash/throttle';
 
+const ACTIVE_DISPLAY_CLASS = `active`;
+const PREV_ACTIVE_DISPLAY_CLASS = `prev-active`;
+
 export default class FullPageScroll {
   constructor() {
     this.THROTTLE_TIMEOUT = 1000;
@@ -53,12 +56,16 @@ export default class FullPageScroll {
 
   changeVisibilityDisplay() {
     this.screenElements.forEach((screen) => {
+      screen.classList.remove(PREV_ACTIVE_DISPLAY_CLASS);
+      if (screen.classList.contains(ACTIVE_DISPLAY_CLASS)) {
+        screen.classList.remove(ACTIVE_DISPLAY_CLASS);
+        screen.classList.add(PREV_ACTIVE_DISPLAY_CLASS);
+      }
       screen.classList.add(`screen--hidden`);
-      screen.classList.remove(`active`);
     });
     this.screenElements[this.activeScreen].classList.remove(`screen--hidden`);
     setTimeout(() => {
-      this.screenElements[this.activeScreen].classList.add(`active`);
+      this.screenElements[this.activeScreen].classList.add(ACTIVE_DISPLAY_CLASS);
     }, 100);
   }
 

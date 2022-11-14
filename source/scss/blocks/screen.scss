@@ -1,13 +1,25 @@
 .screen {
-  position: relative;
+  position: absolute;
+  top: 0;
+  left: 0;
   display: flex;
   flex-direction: column;
+  width: 100%;
   min-height: 100vh;
   z-index: 1;
   overflow: hidden;
 
-  &--hidden {
-    display: none;
+  &--hidden:not(#{&}--story) {
+    opacity: 0;
+  }
+
+  &.active {
+    z-index: 7;
+  }
+
+  &.active ~ &--hidden,
+  &:not(#{&}--hidden) ~ &--hidden {
+    opacity: 0;
   }
 
   @media (max-width: $tablet) and (orientation: portrait) {
@@ -28,6 +40,11 @@
   justify-content: center;
   align-items: center;
   z-index: 1;
+  opacity: 0;
+}
+
+.screen.active .screen__wrapper {
+  opacity: 1;
 }
 
 .screen__disclaimer {
@@ -47,7 +64,7 @@
   background-color: $c-light;
   z-index: 1;
   transform: translateY(0);
-  transition: transform $screen-footer-time $ctf;
+  transition: transform $time_long $custom_time_function;
 
   @media (max-width: $tablet) and (orientation: portrait) {
     width: 3.5rem;
@@ -72,7 +89,8 @@
   }
 }
 
-body:not(.loaded) .screen__footer {
+body:not(.loaded) .screen__footer,
+body.loaded .screen:not(.active) .screen__footer {
   transform: translateY(100%);
 }
 
@@ -307,6 +325,10 @@ body:not(.loaded) .screen__footer {
   }
 }
 
+body:not(.loaded) .screen--story {
+  opacity: 0;
+}
+
 .screen--prizes {
   background-color: $c-dark;
 }
@@ -359,4 +381,16 @@ body:not(.loaded) .screen__footer {
 
 .screen--rules {
   background-color: $c-dark;
+}
+
+.screen--story.prev-active {
+  & ~ .screen--rules,
+  & ~ .screen--prizes,
+  & ~ .screen--game {
+    background-color: transparent;
+
+    .screen__wrapper {
+      transition: opacity $time_medium $time_function $time_long;
+    }
+  }
 }
