@@ -1,4 +1,6 @@
 .rules {
+  --page-delay: 0s;
+
   position: relative;
   flex-grow: 1;
   display: flex;
@@ -21,6 +23,10 @@
   @media (max-width: $mobile) and (orientation: landscape) {
     padding: 4rem 0 4rem;
   }
+}
+
+.screen--story.prev-active ~ .screen--rules.active .rules {
+  --page-delay: calc(#{$time_long} + #{$time_medium});
 }
 
 .rules__title {
@@ -203,16 +209,16 @@
 @for $i from 0 through 3 {
   .rules__item:nth-child(#{$i+1}) {
     &::before {
-      transition-delay: calc(#{$i} * (#{$time_long} - 0.25s));
+      transition-delay: calc(#{$i} * (#{$time_long} - 0.25s) + var(--page-delay));
     }
 
     &::after {
-      transition-delay: calc((#{$i} + 1) * (#{$time_long} - 0.3s));
+      transition-delay: calc((#{$i} + 1) * (#{$time_long} - 0.3s) + var(--page-delay));
     }
 
     p {
       $time: calc((#{$i} * 0.05s) + #{$time_long});
-      $delay: calc((#{$i} + 1) * (#{$time_long} - 0.25s));
+      $delay: calc((#{$i} + 1) * (#{$time_long} - 0.25s) + var(--page-delay));
 
       transition:
         opacity $time_function $time $delay,
@@ -237,7 +243,7 @@
 }
 
 .rules__link {
-  $time_delay: 1s;
+  $time_delay: calc(1s + var(--page-delay));
 
   position: absolute;
   bottom: 6rem;
