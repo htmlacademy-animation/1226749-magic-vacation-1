@@ -1,0 +1,20 @@
+.text__word {
+  $top_offset: 0.3em;
+
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  padding: $top_offset $top_offset 0 0;
+  margin: -#{$top_offset} -#{$top_offset} 0 0;
+}
+
+.text__word > span {
+  display: inline-block;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+  transition: transform $time_medium $time_function;
+}
+
+.screen:not(.active) .text__word > span {
+  transform: translate3d(0, 1.1em, 0);
+}
