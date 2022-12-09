@@ -43,14 +43,267 @@
     display: block;
     width: 100%;
     height: 100%;
+
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+  }
+}
+
+.result__image > img[data-img-type] {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+
+  display: block;
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  max-height: 100%;
+  object-fit: contain;
+  will-change: transform;
+
+  &[data-img-type="flamingo"] {
+    width: 15em;
+    min-width: 175px;
+    height: 14em;
+    min-height: 230px;
+    margin-top: 2em;
+    margin-left: -15em;
+
+    opacity: 0;
+    transform: translate3d(0, 10em, 0) rotate3d(0, 0, 1, -22deg);
+
+    @media (max-width: $tablet) {
+      left: 23%;
+      top: 52%;
+
+      width: 33%;
+      height: 35%;
+      margin: 0;
+    }
   }
 
-  img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
+  &[data-img-type="leaf_blue_1"] {
+    width: 15em;
+    min-width: 186px;
+    height: 15em;
+    min-height: 270px;
+    margin-top: -5em;
+    margin-left: -1em;
+
+    @media (max-width: $tablet) {
+      top: 40%;
+      left: 53%;
+
+      width: 35%;
+      height: 40%;
+      margin: 0;
+    }
+  }
+
+  &[data-img-type="leaf_blue_2"] {
+    width: 15em;
+    min-width: 186px;
+    height: 15em;
+    min-height: 270px;
+    margin-left: -19em;
+
+    @media (max-width: $tablet) {
+      top: 50%;
+      left: 10%;
+
+      width: 35%;
+      height: 40%;
+      margin: 0;
+    }
+  }
+
+  &[data-img-type="suitcase"] {
+    width: 19em;
+    min-width: 255px;
+    height: 19em;
+    min-height: 255px;
+    margin-left: -12em;
+    margin-top: -5em;
+
+    transform: translate3d(0, 10em, 0) scale3d(0, 0, 0);
+
+    @media (max-width: $tablet) {
+      top: 45%;
+      left: 25%;
+
+      width: 48%;
+      height: 48%;
+      margin: 0;
+    }
+  }
+
+  &[data-img-type="leaf_green"] {
+    top: 47%;
+    left: 48%;
+
+    width: 18em;
+    min-width: 232px;
+    height: 16em;
+    min-height: 296px;
+
+    @media (max-width: $tablet) {
+      top: 47%;
+      left: 48%;
+
+      width: 44%;
+      height: 44%;
+      margin: 0;
+    }
+  }
+}
+
+@keyframes flamingo_animation {
+  0% {
+    transform: translate3d(0, -0.5em, 0) rotate3d(0, 0, 1, -3deg);
+  }
+
+  30% {
+    transform: translate3d(0, 0.5em, 0) rotate3d(0, 0, 1, -3deg);
+  }
+
+  40% {
+    transform: translate3d(0, 0.7em, 0) rotate3d(0, 0, 1, 0deg);
+  }
+
+  50% {
+    transform: translate3d(0, 0.5em, 0) rotate3d(0, 0, 1, 3deg);
+  }
+
+  80% {
+    transform: translate3d(0, -0.5em, 0) rotate3d(0, 0, 1, 3deg);
+  }
+
+  90% {
+    transform: translate3d(0, -0.7em, 0) rotate3d(0, 0, 1, 0deg);
+  }
+
+  100% {
+    transform: translate3d(0, -0.5em, 0) rotate3d(0, 0, 1, -3deg);
+  }
+}
+
+@keyframes nods {
+  0% {
+    opacity: 0;
+    transform: rotate3d(0, 0, 1, -25deg);
+  }
+
+  10% {
+    opacity: 1;
+    transform: rotate3d(0, 0, 1, 30deg);
+  }
+
+  30% {
+    transform: rotate3d(0, 0, 1, -20deg);
+  }
+
+  50% {
+    transform: rotate3d(0, 0, 1, 10deg);
+  }
+
+  80% {
+    transform: rotate3d(0, 0, 1, -5deg);
+  }
+
+  100% {
+    transform: rotate3d(0, 0, 1, 0deg);
+  }
+}
+
+@keyframes nods-mirror {
+  0% {
+    opacity: 0;
+    transform: rotate3d(0, 0, 1, 25deg);
+  }
+
+  10% {
+    opacity: 1;
+    transform: rotate3d(0, 0, 1, -30deg);
+  }
+
+  30% {
+    transform: rotate3d(0, 0, 1, 20deg);
+  }
+
+  50% {
+    transform: rotate3d(0, 0, 1, -10deg);
+  }
+
+  80% {
+    transform: rotate3d(0, 0, 1, 5deg);
+  }
+
+  100% {
+    transform: rotate3d(0, 0, 1, 0deg);
+  }
+}
+
+.screen--result.screen--show .result__image > img[data-img-type] {
+  transition: transform $time_long $time_function;
+
+  &[data-img-type="suitcase"] {
+    transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
+    transition: transform $time_long $bounce_time_function;
+  }
+
+  &[data-img-type="flamingo"] {
+    opacity: 1;
+    transform: translate3d(0, -0.5em, 0) rotate3d(0, 0, 1, -3deg);
+
+    animation-name: flamingo_animation;
+    animation-duration: 4s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-delay: $time_long;
+
+    transition:
+      opacity $time_long $time_function,
+      transform $time_long $time_function;
+  }
+
+  &[data-img-type="leaf_blue_1"],
+  &[data-img-type="leaf_blue_2"],
+  &[data-img-type="leaf_green"] {
+    animation-name: nods;
+    animation-duration: 2s;
+    animation-timing-function: $time_function;
+    animation-fill-mode: both;
+  }
+
+  &[data-img-type="leaf_blue_1"],
+  &[data-img-type="leaf_green"] {
+    transform-origin: left;
+
+    animation-name: nods;
+    animation-duration: 2s;
+    animation-timing-function: $time_function;
+    animation-fill-mode: both;
+  }
+
+  &[data-img-type="leaf_blue_1"] {
+    animation-delay: calc(#{$time_long} * 0.8);
+  }
+
+  &[data-img-type="leaf_blue_2"] {
+    animation-name: nods-mirror;
+    transform-origin: right;
+
+    animation-delay: calc(#{$time_long} * 0.85);
+  }
+
+  &[data-img-type="leaf_green"] {
+    animation-delay: calc(#{$time_long} * 0.9);
   }
 }
 

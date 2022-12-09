@@ -40,7 +40,7 @@
   justify-content: center;
   align-items: center;
   z-index: 1;
-  opacity: 0;
+  // opacity: 0;
 }
 
 .screen.active .screen__wrapper {
@@ -374,6 +374,7 @@ body:not(.loaded) .screen--story {
   pointer-events: none;
 
   &.screen--show {
+    z-index: 99;
     opacity: 1;
     pointer-events: auto;
   }
