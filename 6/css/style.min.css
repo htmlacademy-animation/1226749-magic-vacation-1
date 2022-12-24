@@ -2867,7 +2867,7 @@ body:not(.loaded) .page-header__menu a.active::after {
   }
 }
 
-@keyframes flamingo_animation {
+@keyframes move_flamingo {
   0% {
     transform: translate3d(0, -0.5em, 0) rotate3d(0, 0, 1, -3deg);
   }
@@ -2890,7 +2890,7 @@ body:not(.loaded) .page-header__menu a.active::after {
     transform: translate3d(0, -0.5em, 0) rotate3d(0, 0, 1, -3deg);
   }
 }
-@keyframes nods {
+@keyframes swing_element {
   0% {
     opacity: 0;
     transform: rotate3d(0, 0, 1, -25deg);
@@ -2912,7 +2912,7 @@ body:not(.loaded) .page-header__menu a.active::after {
     transform: rotate3d(0, 0, 1, 0deg);
   }
 }
-@keyframes nods-mirror {
+@keyframes swing_mirror_element {
   0% {
     opacity: 0;
     transform: rotate3d(0, 0, 1, 25deg);
@@ -2944,7 +2944,7 @@ body:not(.loaded) .page-header__menu a.active::after {
 .screen--result.screen--show .result__image > img[data-img-type][data-img-type=flamingo] {
   opacity: 1;
   transform: translate3d(0, -0.5em, 0) rotate3d(0, 0, 1, -3deg);
-  animation-name: flamingo_animation;
+  animation-name: move_flamingo;
   animation-duration: 4s;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
@@ -2952,14 +2952,14 @@ body:not(.loaded) .page-header__menu a.active::after {
   transition: opacity 0.5s ease, transform 0.5s ease;
 }
 .screen--result.screen--show .result__image > img[data-img-type][data-img-type=leaf_blue_1], .screen--result.screen--show .result__image > img[data-img-type][data-img-type=leaf_blue_2], .screen--result.screen--show .result__image > img[data-img-type][data-img-type=leaf_green] {
-  animation-name: nods;
+  animation-name: swing_element;
   animation-duration: 2s;
   animation-timing-function: ease;
   animation-fill-mode: both;
 }
 .screen--result.screen--show .result__image > img[data-img-type][data-img-type=leaf_blue_1], .screen--result.screen--show .result__image > img[data-img-type][data-img-type=leaf_green] {
   transform-origin: left;
-  animation-name: nods;
+  animation-name: swing_element;
   animation-duration: 2s;
   animation-timing-function: ease;
   animation-fill-mode: both;
@@ -2968,7 +2968,7 @@ body:not(.loaded) .page-header__menu a.active::after {
   animation-delay: calc(0.5s * 0.8);
 }
 .screen--result.screen--show .result__image > img[data-img-type][data-img-type=leaf_blue_2] {
-  animation-name: nods-mirror;
+  animation-name: swing_mirror_element;
   transform-origin: right;
   animation-delay: calc(0.5s * 0.85);
 }
