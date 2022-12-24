@@ -27,10 +27,7 @@ fullPageScroll.init();
 createAnimationText(
     document.querySelector(`.intro__title`),
     {
-      time: 0.5,
-      startTimeOffset: 0.5,
-      animationType: AnimationType.CUSTOM,
-      lettersTimeOffset: [0.16, 0.08, 0, 0.08, 0.12, 0.08, 0, 0.24, 0.12, 0, 0.12, 0, 0.4, 0.44, 0.36, 0.28, 0.4, 0.32]
+      animationType: AnimationType.RANDOM,
     }
 );
 
@@ -40,7 +37,7 @@ createAnimationText(
       time: 0.5,
       stepTimeOffset: 0.02,
       startTimeOffset: 0.9,
-      animationType: AnimationType.RANDOM,
+      animationType: AnimationType.CUSTOM,
     }
 );
 

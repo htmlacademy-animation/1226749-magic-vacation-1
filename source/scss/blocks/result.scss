@@ -163,7 +163,7 @@
   }
 }
 
-@keyframes flamingo_animation {
+@keyframes move_flamingo {
   0% {
     transform: translate3d(0, -0.5em, 0) rotate3d(0, 0, 1, -3deg);
   }
@@ -193,7 +193,7 @@
   }
 }
 
-@keyframes nods {
+@keyframes swing_element {
   0% {
     opacity: 0;
     transform: rotate3d(0, 0, 1, -25deg);
@@ -221,7 +221,7 @@
   }
 }
 
-@keyframes nods-mirror {
+@keyframes swing_mirror_element {
   0% {
     opacity: 0;
     transform: rotate3d(0, 0, 1, 25deg);
@@ -261,7 +261,7 @@
     opacity: 1;
     transform: translate3d(0, -0.5em, 0) rotate3d(0, 0, 1, -3deg);
 
-    animation-name: flamingo_animation;
+    animation-name: move_flamingo;
     animation-duration: 4s;
     animation-timing-function: linear;
     animation-iteration-count: infinite;
@@ -275,7 +275,7 @@
   &[data-img-type="leaf_blue_1"],
   &[data-img-type="leaf_blue_2"],
   &[data-img-type="leaf_green"] {
-    animation-name: nods;
+    animation-name: swing_element;
     animation-duration: 2s;
     animation-timing-function: $time_function;
     animation-fill-mode: both;
@@ -285,7 +285,7 @@
   &[data-img-type="leaf_green"] {
     transform-origin: left;
 
-    animation-name: nods;
+    animation-name: swing_element;
     animation-duration: 2s;
     animation-timing-function: $time_function;
     animation-fill-mode: both;
@@ -296,7 +296,7 @@
   }
 
   &[data-img-type="leaf_blue_2"] {
-    animation-name: nods-mirror;
+    animation-name: swing_mirror_element;
     transform-origin: right;
 
     animation-delay: calc(#{$time_long} * 0.85);
