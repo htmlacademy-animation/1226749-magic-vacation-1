@@ -25,7 +25,6 @@
 
 .intro__title {
   margin: 0;
-  max-width: 99rem;
   text-transform: uppercase;
   font-family: $font-alt;
   font-weight: 400;
@@ -34,7 +33,7 @@
   letter-spacing: -0.04em;
 
   @media (min-width: $stop-scaling) {
-    max-width: 990px;
+    max-width: 1050px;
     font-size: 120px;
   }
 
@@ -157,12 +156,18 @@
   text-transform: uppercase;
   font-size: 2.4rem;
   line-height: 1.2;
+  opacity: 0;
+  transition: opacity $time_long $time_function 1.2s;
 
   @media (min-width: $stop-scaling) {
     margin: 0 0 16px;
     width: 250px;
     font-size: 24px;
   }
+}
+
+.screen--intro.active .intro__label {
+  opacity: 1;
 }
 
 .intro__date {
