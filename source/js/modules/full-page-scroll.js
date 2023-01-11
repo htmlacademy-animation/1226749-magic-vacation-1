@@ -1,4 +1,5 @@
 import throttle from 'lodash/throttle';
+import {removeSliderThemeClasses, addStartSliderThemeClass} from '../utils';
 
 const ACTIVE_DISPLAY_CLASS = `active`;
 const PREV_ACTIVE_DISPLAY_CLASS = `prev-active`;
@@ -64,8 +65,17 @@ export default class FullPageScroll {
       screen.classList.add(`screen--hidden`);
     });
     this.screenElements[this.activeScreen].classList.remove(`screen--hidden`);
+
     setTimeout(() => {
       this.screenElements[this.activeScreen].classList.add(ACTIVE_DISPLAY_CLASS);
+
+      const displayId = this.screenElements[this.activeScreen].id;
+
+      removeSliderThemeClasses();
+
+      if (displayId === `story`) {
+        addStartSliderThemeClass();
+      }
     }, 100);
   }
 

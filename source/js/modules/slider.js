@@ -1,9 +1,24 @@
 import Swiper from "swiper";
+import {SliderThemeClass, removeSliderThemeClasses, addStartSliderThemeClass} from "../utils";
 
 export default () => {
   let storySlider;
   let sliderContainer = document.getElementById(`story`);
   sliderContainer.style.backgroundImage = `url("img/slide1.jpg"), linear-gradient(180deg, rgba(83, 65, 118, 0) 0%, #523E75 16.85%)`;
+
+  const setSliderClass = () => {
+    removeSliderThemeClasses();
+
+    if (storySlider.activeIndex === 0 || storySlider.activeIndex === 1) {
+      addStartSliderThemeClass();
+    } else if (storySlider.activeIndex === 2 || storySlider.activeIndex === 3) {
+      document.body.classList.add(SliderThemeClass.SLIDE2);
+    } else if (storySlider.activeIndex === 4 || storySlider.activeIndex === 5) {
+      document.body.classList.add(SliderThemeClass.SLIDE3);
+    } else if (storySlider.activeIndex === 6 || storySlider.activeIndex === 7) {
+      document.body.classList.add(SliderThemeClass.SLIDE4);
+    }
+  };
 
   const setSlider = function () {
     if (((window.innerWidth / window.innerHeight) < 1) || window.innerWidth < 769) {
@@ -69,12 +84,17 @@ export default () => {
         observeParents: true
       });
     }
+
+    storySlider.on(`slideChange`, () => {
+      setSliderClass();
+    });
   };
 
   window.addEventListener(`resize`, function () {
     if (storySlider) {
       storySlider.destroy();
     }
+
     setSlider();
   });
 

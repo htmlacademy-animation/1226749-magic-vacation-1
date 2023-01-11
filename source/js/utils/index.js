@@ -4,6 +4,21 @@ const AnimationType = {
   RANDOM: `random`,
 };
 
+const SliderThemeClass = {
+  SLIDE1: `story-slide-one`,
+  SLIDE2: `story-slide-two`,
+  SLIDE3: `story-slide-three`,
+  SLIDE4: `story-slide-four`,
+};
+
+const removeSliderThemeClasses = () => {
+  Object.values(SliderThemeClass).forEach((className) => document.body.classList.remove(className));
+};
+
+const addStartSliderThemeClass = () => {
+  document.body.classList.add(SliderThemeClass.SLIDE1);
+};
+
 const getNoise = (noiseLength) => {
   const maxFrequency = 2 ** 5 + 1;
   const frequencies = new Array(maxFrequency).fill(0).map((el, index) => index + 1);
@@ -135,6 +150,9 @@ const getFloatRandomNumber = (min, max) => {
 };
 
 export {
+  SliderThemeClass,
+  removeSliderThemeClasses,
+  addStartSliderThemeClass,
   AnimationType,
   createAnimationText,
   shuffleArray,
