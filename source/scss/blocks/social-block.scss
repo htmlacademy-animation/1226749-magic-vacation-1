@@ -26,7 +26,7 @@
     .social-block__link {
       opacity: 1;
       top: 0;
-      transform: translateY(0);
+      transform: translate3d(0, 0, 0);
       transition:
         opacity var(--time) $time_function var(--delay),
         transform var(--time) $time_function var(--delay);
@@ -49,7 +49,7 @@
 
       .social-block__link {
         opacity: 1;
-        transform: translateY(0);
+        transform: translate3d(0, 0, 0);
       }
     }
   }
@@ -208,7 +208,7 @@ body:not(.loaded) .social-block__toggler::before {
   color: $c-light;
   border: 2px solid transparent;
   border-radius: 50%;
-  transform: translateY(50%);
+  transform: translate3d(0, 50%, 0);
   transition:
     opacity $time_medium $time_function,
     transform 0s $time_function $time_medium;

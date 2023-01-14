@@ -10,6 +10,13 @@ import social from './modules/social.js';
 import FullPageScroll from './modules/full-page-scroll';
 import {createAnimationText, AnimationType} from './utils';
 
+const fullPageScroll = new FullPageScroll();
+
+window.addEventListener(`load`, () => {
+  document.body.classList.add(`loaded`);
+
+  fullPageScroll.activate();
+});
 
 // init modules
 mobileHeight();
@@ -21,7 +28,6 @@ result();
 form();
 social();
 
-const fullPageScroll = new FullPageScroll();
 fullPageScroll.init();
 
 createAnimationText(
@@ -48,8 +54,4 @@ createAnimationText(
         animationType: AnimationType.RANDOM,
       }
   );
-});
-
-window.addEventListener(`load`, () => {
-  document.body.classList.add(`loaded`);
 });

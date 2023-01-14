@@ -96,10 +96,7 @@
   font-size: 2.4rem;
   line-height: 1.27;
   opacity: 0;
-  transform: translateY(4rem);
-  transition:
-    opacity var(--time) $time_function var(--delay),
-    transform var(--time) $time_function var(--delay);
+  transform: translate3d(0, 4rem, 0);
 
   @media (min-width: $stop-scaling) {
     width: 509px;
@@ -147,7 +144,10 @@
 
 .screen--intro.active .intro__message {
   opacity: 1;
-  transform: translateY(0);
+  transform: translate3d(0, 0, 0);
+  transition:
+    opacity var(--time) $time_function var(--delay),
+    transform var(--time) $time_function var(--delay);
 }
 
 .intro__label {
@@ -157,7 +157,6 @@
   font-size: 2.4rem;
   line-height: 1.2;
   opacity: 0;
-  transition: opacity $time_long $time_function 1.2s;
 
   @media (min-width: $stop-scaling) {
     margin: 0 0 16px;
@@ -168,6 +167,7 @@
 
 .screen--intro.active .intro__label {
   opacity: 1;
+  transition: opacity $time_long $time_function 1s;
 }
 
 .intro__date {

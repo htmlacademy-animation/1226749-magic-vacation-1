@@ -1,5 +1,5 @@
 import Swiper from "swiper";
-import {SliderThemeClass, removeSliderThemeClasses, addStartSliderThemeClass} from "../utils";
+import {SliderThemeClass, removeSliderThemeClasses, STORY_SCREEN_ACTIVATE_EVENT} from "../utils";
 
 export default () => {
   let storySlider;
@@ -10,7 +10,7 @@ export default () => {
     removeSliderThemeClasses();
 
     if (storySlider.activeIndex === 0 || storySlider.activeIndex === 1) {
-      addStartSliderThemeClass();
+      document.body.classList.add(SliderThemeClass.SLIDE1);
     } else if (storySlider.activeIndex === 2 || storySlider.activeIndex === 3) {
       document.body.classList.add(SliderThemeClass.SLIDE2);
     } else if (storySlider.activeIndex === 4 || storySlider.activeIndex === 5) {
@@ -20,7 +20,7 @@ export default () => {
     }
   };
 
-  const setSlider = function () {
+  const setSlider = function (initSlideIndex = 0) {
     if (((window.innerWidth / window.innerHeight) < 1) || window.innerWidth < 769) {
       storySlider = new Swiper(`.js-slider`, {
         pagination: {
@@ -88,15 +88,21 @@ export default () => {
     storySlider.on(`slideChange`, () => {
       setSliderClass();
     });
+
+    storySlider.slideTo(initSlideIndex, 0);
   };
 
   window.addEventListener(`resize`, function () {
+    const activeSlideIndex = storySlider.activeIndex;
+
     if (storySlider) {
       storySlider.destroy();
     }
 
-    setSlider();
+    setSlider(activeSlideIndex);
   });
+
+  document.addEventListener(STORY_SCREEN_ACTIVATE_EVENT, setSliderClass);
 
   setSlider();
 };

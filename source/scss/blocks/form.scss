@@ -100,10 +100,6 @@
   }
 }
 
-.screen--story.prev-active ~ .screen--game.active .form__field {
-  --delay: #{$time_long};
-}
-
 .form__button {
   @media (orientation: portrait) {
     position: relative;

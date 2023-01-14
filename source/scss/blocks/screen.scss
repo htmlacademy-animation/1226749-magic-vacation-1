@@ -9,17 +9,8 @@
   z-index: 1;
   overflow: hidden;
 
-  &--hidden:not(#{&}--story) {
-    opacity: 0;
-  }
-
-  &.active {
-    z-index: 7;
-  }
-
-  &.active ~ &--hidden,
-  &:not(#{&}--hidden) ~ &--hidden {
-    opacity: 0;
+  &--hidden {
+    display: none;
   }
 
   @media (max-width: $tablet) and (orientation: portrait) {
@@ -40,19 +31,6 @@
   justify-content: center;
   align-items: center;
   z-index: 1;
-  // opacity: 0;
-}
-
-.screen.active .screen__wrapper {
-  opacity: 1;
-}
-
-.screen__disclaimer {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 1;
 }
 
 .screen__footer {
@@ -63,8 +41,11 @@
   color: $c-dark;
   background-color: $c-light;
   z-index: 1;
-  transform: translateY(0);
-  transition: transform $time_long $custom_time_function;
+  transform: translate3d(0, 100%, 0);
+  transition:
+    width $time_long $custom_time_function $time_long,
+    height $time_long $custom_time_function $time_long,
+    transform $time_long $custom_time_function;
 
   @media (max-width: $tablet) and (orientation: portrait) {
     width: 3.5rem;
@@ -74,6 +55,10 @@
     &.screen__footer--full {
       width: 100%;
       height: 18rem;
+
+      transition:
+        width $time_long $custom_time_function,
+        height $time_long $custom_time_function;
     }
   }
 
@@ -85,23 +70,76 @@
     &.screen__footer--full {
       width: 100%;
       height: 16rem;
+
+      transition:
+        width $time_long $custom_time_function,
+        height $time_long $custom_time_function;
     }
   }
 }
 
-body:not(.loaded) .screen__footer,
-body.loaded .screen:not(.active) .screen__footer {
-  transform: translateY(100%);
+.screen.active {
+  .screen__disclaimer,
+  .screen__footer {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+body.footer-display .screen {
+  @media (min-width: $mobile + 1) {
+    .screen__disclaimer,
+    .screen__footer {
+      transform: translate3d(0, 0, 0);
+      transition: transform 0s $custom_time_function;
+
+      & > .screen__footer-wrapper,
+      & > .disclaimer {
+        opacity: 0;
+        transition: opacity $time_medium $time_function;
+      }
+    }
+  }
+}
+
+body.footer-display .screen.active {
+  @media (min-width: $mobile + 1) {
+    .screen__disclaimer,
+    .screen__footer {
+      & > .screen__footer-wrapper,
+      & > .disclaimer {
+        opacity: 1;
+      }
+    }
+  }
+}
+
+.screen__disclaimer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  color: $c-dark;
+  transform: translate3d(0, 100%, 0);
+  transition: transform $time_long $custom_time_function;
+
+  @media (min-width: $mobile + 1) {
+    background-color: $c-light;
+  }
 }
 
 .screen__footer-wrapper {
   @include container;
+
+  transition: opacity $time_long $time_function;
 
   @media (max-width: $tablet) and (orientation: portrait) {
     opacity: 0;
 
     .screen__footer--full & {
       opacity: 1;
+
+      transition: opacity $time_long $time_function $time_long;
     }
   }
 
@@ -110,6 +148,8 @@ body.loaded .screen:not(.active) .screen__footer {
 
     .screen__footer--full & {
       opacity: 1;
+
+      transition: opacity $time_long $time_function $time_long;
     }
   }
 }
@@ -124,6 +164,7 @@ body.loaded .screen:not(.active) .screen__footer {
   height: 4rem;
   color: $c-dark;
   z-index: 1;
+  transition: opacity $time_medium $time_function $time_long;
 
   @media (max-width: $tablet) and (orientation: portrait) {
     display: block;
@@ -131,6 +172,7 @@ body.loaded .screen:not(.active) .screen__footer {
     .screen__footer--full & {
       opacity: 0;
       pointer-events: none;
+      transition: opacity $time_medium $time_function;
     }
   }
 
@@ -140,6 +182,7 @@ body.loaded .screen:not(.active) .screen__footer {
     .screen__footer--full & {
       opacity: 0;
       pointer-events: none;
+      transition: opacity $time_medium $time_function;
     }
   }
 
@@ -168,6 +211,7 @@ body.loaded .screen:not(.active) .screen__footer {
     display: block;
     opacity: 0;
     pointer-events: none;
+    transition: opacity $time_medium $time_function;
 
     .screen__footer--full & {
       opacity: 1;
@@ -179,6 +223,7 @@ body.loaded .screen:not(.active) .screen__footer {
     display: block;
     opacity: 0;
     pointer-events: none;
+    transition: opacity $time_medium $time_function;
 
     .screen__footer--full & {
       opacity: 1;
@@ -313,11 +358,13 @@ body.loaded .screen:not(.active) .screen__footer {
 }
 
 .screen--story {
+  opacity: 0;
   background-color: $c-dark;
   background-image: url("../img/slide1.jpg"), url("../img/slide2.jpg"), url("../img/slide3.jpg"), url("../img/slide4.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
+  transition: opacity $time_long $time_function;
 
   @media (orientation: portrait) {
     background-size: auto calc(100vh - 13.8rem), 100% 25rem;
@@ -325,8 +372,8 @@ body.loaded .screen:not(.active) .screen__footer {
   }
 }
 
-body:not(.loaded) .screen--story {
-  opacity: 0;
+.screen--story.active {
+  opacity: 1;
 }
 
 .screen--prizes {
@@ -347,6 +394,8 @@ body:not(.loaded) .screen--story {
     background-image: url("../img/sonya.png");
     background-repeat: no-repeat;
     background-size: contain;
+    opacity: 0;
+    transition: opacity $time_long $time_function $time_medium;
 
     @include retina {
       background-image: url("../img/sonya@2x.png");
@@ -364,17 +413,23 @@ body:not(.loaded) .screen--story {
   }
 }
 
+.screen--game.active {
+  &::before {
+    opacity: 1;
+  }
+}
+
 .screen--result {
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
+  z-index: 5;
   background-color: $c-dark;
   opacity: 0;
   pointer-events: none;
 
   &.screen--show {
-    z-index: 99;
     opacity: 1;
     pointer-events: auto;
   }
@@ -384,14 +439,22 @@ body:not(.loaded) .screen--story {
   background-color: $c-dark;
 }
 
-.screen--story.prev-active {
-  & ~ .screen--rules,
-  & ~ .screen--prizes,
-  & ~ .screen--game {
-    background-color: transparent;
+.screen--fill {
+  z-index: 3;
+  opacity: 0;
+  transition: opacity 0s $time_function $time_long;
 
-    .screen__wrapper {
-      transition: opacity $time_medium $time_function $time_long;
-    }
+  .screen__wrapper {
+    opacity: 0;
+    transition: opacity $time_long $time_function;
+  }
+}
+
+.screen--fill.active {
+  opacity: 1;
+  transition: opacity 0s $time_function;
+
+  .screen__wrapper {
+    opacity: 1;
   }
 }

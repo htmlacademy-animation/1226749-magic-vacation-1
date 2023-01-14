@@ -9,12 +9,22 @@
 }
 
 .text__word > span {
+  --transitionProperty: transform;
+  --transitionDuration: #{$time_medium};
+  --transitionTimingFunction: #{$time_function};
+  --transitionDelay: 0s;
+
   display: inline-block;
-  will-change: transform;
+  will-change: transform, opactiy;
+  opacity: 1;
   transform: translate3d(0, 0, 0);
-  transition: transform $time_medium $time_function;
+  transition: var(--transitionProperty) var(--transitionDuration) var(--transitionTimingFunction) var(--transitionDelay);
 }
 
 .screen:not(.active) .text__word > span {
+  opacity: 0;
   transform: translate3d(0, 1.1em, 0);
+  transition:
+    transform 0s $time_function $time_medium,
+    opacity $time_medium $time_function 0s;
 }

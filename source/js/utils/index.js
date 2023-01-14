@@ -1,8 +1,16 @@
+const Time = {
+  SHORT: 100,
+  MEDIUM: 300,
+  LONG: 500,
+};
+
 const AnimationType = {
   DEFAULT: `default`,
   CUSTOM: `custom`,
   RANDOM: `random`,
 };
+
+const STORY_SCREEN_ACTIVATE_EVENT = `active-story`;
 
 const SliderThemeClass = {
   SLIDE1: `story-slide-one`,
@@ -11,12 +19,14 @@ const SliderThemeClass = {
   SLIDE4: `story-slide-four`,
 };
 
-const removeSliderThemeClasses = () => {
-  Object.values(SliderThemeClass).forEach((className) => document.body.classList.remove(className));
+const dispatchStoryScreenActivateEvent = () => {
+  document.dispatchEvent(new CustomEvent(STORY_SCREEN_ACTIVATE_EVENT, {
+    bubbles: true,
+  }));
 };
 
-const addStartSliderThemeClass = () => {
-  document.body.classList.add(SliderThemeClass.SLIDE1);
+const removeSliderThemeClasses = () => {
+  Object.values(SliderThemeClass).forEach((className) => document.body.classList.remove(className));
 };
 
 const getNoise = (noiseLength) => {
@@ -100,10 +110,10 @@ const createAnimationText = (node, userAnimateSettings = {}) => {
 
       span.textContent = letter;
 
-      span.style.transitionProperty = `${animateSettings.property}`;
-      span.style.transitionDuration = `${animateSettings.time}s`;
-      span.style.transitionTimingFunction = `${animateSettings.timeFunction}`;
-      span.style.transitionDelay = `${letterTimeOffsets[commonLetterIndex]}s`;
+      span.style.setProperty(`--transitionProperty`, `${animateSettings.property}`);
+      span.style.setProperty(`--transitionDuration`, `${animateSettings.time}s`);
+      span.style.setProperty(`--transitionTimingFunction`, `${animateSettings.timeFunction}`);
+      span.style.setProperty(`--transitionDelay`, `${letterTimeOffsets[commonLetterIndex]}s`);
 
       commonLetterIndex++;
 
@@ -150,9 +160,11 @@ const getFloatRandomNumber = (min, max) => {
 };
 
 export {
+  Time,
   SliderThemeClass,
   removeSliderThemeClasses,
-  addStartSliderThemeClass,
+  STORY_SCREEN_ACTIVATE_EVENT,
+  dispatchStoryScreenActivateEvent,
   AnimationType,
   createAnimationText,
   shuffleArray,
