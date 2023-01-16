@@ -26,21 +26,22 @@
     .social-block__link {
       opacity: 1;
       top: 0;
-      transform: translateY(0);
+      transform: translate3d(0, 0, 0);
       transition:
         opacity var(--time) $time_function var(--delay),
         transform var(--time) $time_function var(--delay);
     }
   }
 
+  &:hover .social-block__toggler:not(:hover),
   &:focus-within .social-block__toggler,
   & .social-block__toggler:focus {
     color: $c-light;
     outline: none;
 
     &::before {
-      background-color: $c-purple;
-      border-color: $c-purple;
+      background-color: var(--main-color);
+      border-color: var(--main-color);
     }
 
     & + .social-block__list {
@@ -48,7 +49,7 @@
 
       .social-block__link {
         opacity: 1;
-        transform: translateY(0);
+        transform: translate3d(0, 0, 0);
       }
     }
   }
@@ -84,6 +85,8 @@
     transition:
       width $time_medium $time_function,
       height $time_medium $time_function,
+      background-color $time_medium $time_function,
+      border-color $time_medium $time_function,
       transform calc(1.3 * #{$time_medium}) $bounce_time_function 0.45s;
   }
 
@@ -94,8 +97,7 @@
     height: 2.2rem;
   }
 
-  &:hover:not(:focus),
-  .social-block--active & {
+  &:hover:not(:focus) {
     &::before {
       width: 112.5%;
       height: 112.5%;
@@ -206,7 +208,7 @@ body:not(.loaded) .social-block__toggler::before {
   color: $c-light;
   border: 2px solid transparent;
   border-radius: 50%;
-  transform: translateY(50%);
+  transform: translate3d(0, 50%, 0);
   transition:
     opacity $time_medium $time_function,
     transform 0s $time_function $time_medium;
@@ -227,19 +229,19 @@ body:not(.loaded) .social-block__toggler::before {
   }
 
   &:hover {
-    color: $c-purple;
+    color: var(--main-color);
   }
 
   &:focus {
-    color: $c-purple;
+    color: var(--main-color);
     background-color: $c-light;
-    border-color: $c-purple;
+    border-color: var(--main-color);
     outline: none;
   }
 
   &:active,
   &:active:focus {
-    color: $c-purple;
+    color: var(--main-color);
     background-color: $c-light;
     border-color: $c-light;
   }

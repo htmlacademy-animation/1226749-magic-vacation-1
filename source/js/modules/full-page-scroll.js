@@ -1,7 +1,22 @@
 import throttle from 'lodash/throttle';
+import {
+  Time,
+  removeSliderThemeClasses,
+  dispatchStoryScreenActivateEvent,
+} from '../utils';
 
 const ACTIVE_DISPLAY_CLASS = `active`;
-const PREV_ACTIVE_DISPLAY_CLASS = `prev-active`;
+const HIDDEN_DISPLAY_CLASS = `screen--hidden`;
+const FILL_DISPLAY_CLASS = `screen--fill`;
+const WITH_FOOTER_DISPLAY_CLASS = `screen--with-footer`;
+
+const ScreenId = {
+  STORY: `story`,
+  INTRO: `top`,
+};
+
+const INTRO_BACKGROUND_HIDE_CLASS = `intro-background-hide`;
+const FOOTER_DISPLAY_CLASS = `footer-display`;
 
 export default class FullPageScroll {
   constructor() {
@@ -12,7 +27,9 @@ export default class FullPageScroll {
     this.screenElements = document.querySelectorAll(`.screen:not(.screen--result)`);
     this.menuElements = document.querySelectorAll(`.page-header__menu .js-menu-link`);
 
-    this.activeScreen = 0;
+    this.activeScreenIndex = 0;
+    this.prevActiveScreen = null;
+    this.isInitState = true;
     this.onScrollHandler = this.onScroll.bind(this);
     this.onUrlHashChengedHandler = this.onUrlHashChanged.bind(this);
   }
@@ -20,15 +37,20 @@ export default class FullPageScroll {
   init() {
     document.addEventListener(`wheel`, throttle(this.onScrollHandler, this.THROTTLE_TIMEOUT, {trailing: true}));
     window.addEventListener(`popstate`, this.onUrlHashChengedHandler);
+  }
 
+  activate() {
     this.onUrlHashChanged();
   }
 
   onScroll(evt) {
     if (this.scrollFlag) {
+      const prevActiveScreenIndex = this.activeScreenIndex;
       this.reCalculateActiveScreenPosition(evt.deltaY);
-      const currentPosition = this.activeScreen;
-      if (currentPosition !== this.activeScreen) {
+      const currentPosition = this.activeScreenIndex;
+      if (currentPosition !== this.activeScreenIndex) {
+        this.prevActiveScreen = this.screenElements[prevActiveScreenIndex];
+
         this.changePageDisplay();
       }
     }
@@ -43,8 +65,12 @@ export default class FullPageScroll {
   }
 
   onUrlHashChanged() {
+    if (!this.isInitState) {
+      this.prevActiveScreen = this.screenElements[this.activeScreenIndex];
+    }
+
     const newIndex = Array.from(this.screenElements).findIndex((screen) => location.hash.slice(1) === screen.id);
-    this.activeScreen = (newIndex < 0) ? 0 : newIndex;
+    this.activeScreenIndex = (newIndex < 0) ? 0 : newIndex;
     this.changePageDisplay();
   }
 
@@ -55,22 +81,73 @@ export default class FullPageScroll {
   }
 
   changeVisibilityDisplay() {
-    this.screenElements.forEach((screen) => {
-      screen.classList.remove(PREV_ACTIVE_DISPLAY_CLASS);
-      if (screen.classList.contains(ACTIVE_DISPLAY_CLASS)) {
-        screen.classList.remove(ACTIVE_DISPLAY_CLASS);
-        screen.classList.add(PREV_ACTIVE_DISPLAY_CLASS);
+    let delayDisablePrevScreen = 0;
+    let delayTimeActivateNewScreen = Time.MEDIUM;
+    let delayTimeHidePrevScreen = 0;
+
+    if (this.isInitState) {
+      delayTimeActivateNewScreen = 10;
+      this.isInitState = false;
+
+      if (this.screenElements[this.activeScreenIndex].id !== ScreenId.INTRO) {
+        document.body.classList.add(INTRO_BACKGROUND_HIDE_CLASS);
       }
-      screen.classList.add(`screen--hidden`);
-    });
-    this.screenElements[this.activeScreen].classList.remove(`screen--hidden`);
+    }
+
+    if (this.prevActiveScreen) {
+      if (
+        this.screenElements[this.activeScreenIndex].classList.contains(FILL_DISPLAY_CLASS)
+        && (
+          this.prevActiveScreen.id === ScreenId.STORY
+          || this.prevActiveScreen.id === ScreenId.INTRO
+        )
+      ) {
+        delayTimeActivateNewScreen = Time.MEDIUM;
+        delayTimeHidePrevScreen = Time.MEDIUM;
+        delayDisablePrevScreen = Time.MEDIUM;
+      }
+
+      if (this.prevActiveScreen.id !== ScreenId.INTRO) {
+        document.body.classList.add(INTRO_BACKGROUND_HIDE_CLASS);
+      }
+
+      if (this.screenElements[this.activeScreenIndex].classList.contains(WITH_FOOTER_DISPLAY_CLASS)
+        && this.prevActiveScreen.classList.contains(WITH_FOOTER_DISPLAY_CLASS)) {
+        document.body.classList.add(FOOTER_DISPLAY_CLASS);
+      } else {
+        document.body.classList.remove(FOOTER_DISPLAY_CLASS);
+      }
+
+      setTimeout(() => {
+        this.prevActiveScreen.classList.remove(ACTIVE_DISPLAY_CLASS);
+      }, delayDisablePrevScreen);
+    }
+
+    this.screenElements[this.activeScreenIndex].classList.remove(HIDDEN_DISPLAY_CLASS);
+
+    if (this.screenElements[this.activeScreenIndex].id === ScreenId.INTRO) {
+      document.body.classList.remove(INTRO_BACKGROUND_HIDE_CLASS);
+    }
+
     setTimeout(() => {
-      this.screenElements[this.activeScreen].classList.add(ACTIVE_DISPLAY_CLASS);
-    }, 100);
+      this.screenElements[this.activeScreenIndex].classList.add(ACTIVE_DISPLAY_CLASS);
+
+      removeSliderThemeClasses();
+
+      if (this.screenElements[this.activeScreenIndex].id === ScreenId.STORY) {
+        dispatchStoryScreenActivateEvent();
+      }
+
+      if (this.prevActiveScreen) {
+        setTimeout(() => {
+          this.prevActiveScreen.classList.add(HIDDEN_DISPLAY_CLASS);
+        }, delayTimeHidePrevScreen);
+      }
+    }, delayTimeActivateNewScreen);
   }
 
   changeActiveMenuItem() {
-    const activeItem = Array.from(this.menuElements).find((item) => item.dataset.href === this.screenElements[this.activeScreen].id);
+    const activeItem = Array.from(this.menuElements).find((item) => item.dataset.href === this.screenElements[this.activeScreenIndex].id);
     if (activeItem) {
       this.menuElements.forEach((item) => item.classList.remove(`active`));
       activeItem.classList.add(`active`);
@@ -80,9 +157,9 @@ export default class FullPageScroll {
   emitChangeDisplayEvent() {
     const event = new CustomEvent(`screenChanged`, {
       detail: {
-        'screenId': this.activeScreen,
-        'screenName': this.screenElements[this.activeScreen].id,
-        'screenElement': this.screenElements[this.activeScreen]
+        'screenId': this.activeScreenIndex,
+        'screenName': this.screenElements[this.activeScreenIndex].id,
+        'screenElement': this.screenElements[this.activeScreenIndex]
       }
     });
 
@@ -91,9 +168,9 @@ export default class FullPageScroll {
 
   reCalculateActiveScreenPosition(delta) {
     if (delta > 0) {
-      this.activeScreen = Math.min(this.screenElements.length - 1, ++this.activeScreen);
+      this.activeScreenIndex = Math.min(this.screenElements.length - 1, ++this.activeScreenIndex);
     } else {
-      this.activeScreen = Math.max(0, --this.activeScreen);
+      this.activeScreenIndex = Math.max(0, --this.activeScreenIndex);
     }
   }
 }

@@ -58,6 +58,11 @@
   text-transform: uppercase;
   font-size: 2.4rem;
   line-height: 1.2;
+  opacity: 0;
+  transform: translate3d(0, 50%, 0);
+  transition:
+    transform $time_long $time_function $time_medium,
+    opacity $time_long $time_function $time_medium;
 
   @media (min-width: $stop-scaling) {
     margin-left: 58px;
@@ -88,12 +93,19 @@
   }
 }
 
+.screen--prizes.active .prizes__lead {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
 .prizes__list {
   @include list-reset;
   display: flex;
   justify-content: flex-end;
   align-items: flex-end;
   margin-top: auto;
+  opacity: 0;
+  transition: opacity $time_long $time_function $time_medium;
 
   @media (max-width: $tablet) and (orientation: portrait) {
     flex-direction: column;
@@ -102,6 +114,10 @@
     margin: auto 0;
     padding-left: 2rem;
   }
+}
+
+.screen--prizes.active .prizes__list {
+  opacity: 1;
 }
 
 .prizes__item {

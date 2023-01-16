@@ -29,6 +29,8 @@ html {
 }
 
 body {
+  --main-color: #{$c-purple};
+
   position: relative;
   margin: 0;
   padding: 0;
@@ -62,6 +64,22 @@ body {
     @media (max-width: $mobile) and (orientation: landscape) {
       overflow: hidden;
     }
+  }
+
+  &.story-slide-one {
+    --main-color: #{$c-dark};
+  }
+
+  &.story-slide-two {
+    --main-color: #{$c-blue};
+  }
+
+  &.story-slide-three {
+    --main-color: #{$c-dark-blue};
+  }
+
+  &.story-slide-four {
+    --main-color: #{$c-purple};
   }
 }
 

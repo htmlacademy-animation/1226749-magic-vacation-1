@@ -184,6 +184,30 @@
   }
 }
 
+@keyframes roll_left_button {
+  0% {
+    opacity: 0;
+    transform: translate3d(-4rem, 0, 0) rotate3d(0, 0, 1, -145deg);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) rotate3d(0, 0, 1, 0);
+  }
+}
+
+@keyframes roll_right_button {
+  0% {
+    opacity: 0;
+    transform: translate3d(4rem, 0, 0) rotate3d(0, 0, 1, 145deg);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) rotate3d(0, 0, 1, 0);
+  }
+}
+
 .slider__control {
   @include btn-reset;
   position: relative;
@@ -221,7 +245,7 @@
   }
 
   &:hover {
-    color: $c-purple;
+    color: var(--main-color);
 
     &::before {
       width: 112.5%;
@@ -230,11 +254,11 @@
   }
 
   &:focus {
-    color: $c-purple;
+    color: var(--main-color);
     outline: none;
 
     &::before {
-      border-color: $c-purple;
+      border-color: var(--main-color);
     }
   }
 
@@ -245,14 +269,33 @@
     &::before {
       width: 100%;
       height: 100%;
-      background-color: $c-purple;
-      border-color: $c-purple;
+      background-color: var(--main-color);
+      border-color: var(--main-color);
     }
   }
 
   &.swiper-button-disabled {
     opacity: 0.5;
     pointer-events: none;
+  }
+}
+
+.screen:not(.active) .slider__control {
+  opacity: 0;
+}
+
+.screen.active .slider__control {
+  animation-duration: $time_medium;
+  animation-timing-function: ease-out;
+  animation-delay: 0.5s;
+  animation-fill-mode: both;
+
+  &.slider__control--prev {
+    animation-name: roll_left_button;
+  }
+
+  &.slider__control--next {
+    animation-name: roll_right_button;
   }
 }
 

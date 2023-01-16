@@ -301,14 +301,14 @@ body:not(.loaded) .page-header__nav {
 
     &:hover,
     &:focus {
-      color: $c-purple;
+      color: var(--main-color);
       outline: none;
 
       &::after {
         transform-origin: left;
         transform: scaleX(1);
         opacity: 1;
-        background-color: $c-purple;
+        background-color: var(--main-color);
       }
     }
   }

@@ -367,7 +367,8 @@
   text-transform: uppercase;
   font-size: 2.4rem;
   line-height: 1.2;
-  color: $c-light;
+  color: transparent;
+  transition: color $time_medium $time_function;
 
   @media (min-width: $stop-scaling) {
     margin: auto auto 10px;
@@ -459,6 +460,29 @@
       background-color: $c-purple;
       border-color: $c-purple;
     }
+  }
+}
+
+@keyframes roll_button {
+  0% {
+    opacity: 0;
+    transform: translate3d(4rem, 0, 0) rotate3d(0, 0, 1, 145deg);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) rotate3d(0, 0, 1, 0);
+  }
+}
+
+.screen--result.screen--show .result__button {
+  color: $c-light;
+
+  span {
+    animation-duration: $time_medium;
+    animation-timing-function: ease-out;
+    animation-fill-mode: both;
+    animation-name: roll_button;
   }
 }
 
