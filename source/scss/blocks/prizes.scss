@@ -104,8 +104,6 @@
   justify-content: flex-end;
   align-items: flex-end;
   margin-top: auto;
-  opacity: 0;
-  transition: opacity $time_long $time_function $time_medium;
 
   @media (max-width: $tablet) and (orientation: portrait) {
     flex-direction: column;
@@ -116,12 +114,11 @@
   }
 }
 
-.screen--prizes.active .prizes__list {
-  opacity: 1;
-}
-
 .prizes__item {
+  position: relative;
   margin-left: 7.5rem;
+  opacity: 0;
+  transition: opacity $time_medium $time_function;
 
   @media (min-width: $stop-scaling) {
     margin-left: 75px;
@@ -132,6 +129,7 @@
     align-items: flex-end;
     margin-left: 0;
     margin-bottom: 2.8rem;
+    transition: opacity $time_medium $time_function $time_medium;
 
     &:last-child {
       margin-bottom: 0;
@@ -140,6 +138,13 @@
 
   @media (max-width: $tablet) and (orientation: landscape) {
     margin-left: 5rem;
+  }
+
+  svg {
+    display: block;
+
+    width: 100%;
+    height: auto;
   }
 
   &--journeys {
@@ -168,6 +173,10 @@
 
       @media (max-width: $mobile) and (orientation: landscape) {
         width: 10rem;
+      }
+
+      svg {
+        transform: scale(1.2) translate(1%, -7%);
       }
     }
   }
@@ -228,6 +237,40 @@
 
       @media (max-width: $mobile) and (orientation: landscape) {
         width: 10rem;
+      }
+    }
+  }
+}
+
+.screen--prizes.active .prizes__item {
+  opacity: 1;
+}
+
+body:not(.prizes-show) {
+  .screen--prizes {
+    .prizes__item {
+      transition: opacity $time_medium $time_function 3s;
+
+      &--journeys {
+        left: 30%;
+
+        transition:
+          opacity $time_medium $time_function,
+          left 1s $time_function 2s;
+
+        @media (max-width: $tablet) and (orientation: portrait) {
+          left: 0;
+
+          transition: opacity $time_medium $time_function $time_medium;
+        }
+      }
+    }
+
+    &.active {
+      .prizes__item {
+        &--journeys {
+          left: 0;
+        }
       }
     }
   }

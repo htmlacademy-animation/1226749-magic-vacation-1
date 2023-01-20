@@ -4,6 +4,7 @@ import {
   removeSliderThemeClasses,
   dispatchStoryScreenActivateEvent,
 } from '../utils';
+import {getPrizesJourneysSvg} from './svgs';
 
 const ACTIVE_DISPLAY_CLASS = `active`;
 const HIDDEN_DISPLAY_CLASS = `screen--hidden`;
@@ -13,10 +14,14 @@ const WITH_FOOTER_DISPLAY_CLASS = `screen--with-footer`;
 const ScreenId = {
   STORY: `story`,
   INTRO: `top`,
+  PRIZES: `prizes`,
 };
 
 const INTRO_BACKGROUND_HIDE_CLASS = `intro-background-hide`;
 const FOOTER_DISPLAY_CLASS = `footer-display`;
+
+let journeysSvgObject = {};
+let isJourneysSvgNeedPaste = true;
 
 export default class FullPageScroll {
   constructor() {
@@ -35,6 +40,8 @@ export default class FullPageScroll {
   }
 
   init() {
+    journeysSvgObject = getPrizesJourneysSvg();
+
     document.addEventListener(`wheel`, throttle(this.onScrollHandler, this.THROTTLE_TIMEOUT, {trailing: true}));
     window.addEventListener(`popstate`, this.onUrlHashChengedHandler);
   }
@@ -111,6 +118,10 @@ export default class FullPageScroll {
         document.body.classList.add(INTRO_BACKGROUND_HIDE_CLASS);
       }
 
+      if (this.prevActiveScreen.id === ScreenId.PRIZES) {
+        document.body.classList.add(`prizes-show`);
+      }
+
       if (this.screenElements[this.activeScreenIndex].classList.contains(WITH_FOOTER_DISPLAY_CLASS)
         && this.prevActiveScreen.classList.contains(WITH_FOOTER_DISPLAY_CLASS)) {
         document.body.classList.add(FOOTER_DISPLAY_CLASS);
@@ -127,6 +138,18 @@ export default class FullPageScroll {
 
     if (this.screenElements[this.activeScreenIndex].id === ScreenId.INTRO) {
       document.body.classList.remove(INTRO_BACKGROUND_HIDE_CLASS);
+    } else if (this.screenElements[this.activeScreenIndex].id === ScreenId.PRIZES) {
+      if (isJourneysSvgNeedPaste) {
+        if (journeysSvgObject.content) {
+          const prizesIcon = document.querySelector(`.prizes__item--journeys .prizes__icon`);
+
+          if (prizesIcon) {
+            prizesIcon.innerHTML = journeysSvgObject.content;
+          }
+        }
+
+        isJourneysSvgNeedPaste = false;
+      }
     }
 
     setTimeout(() => {
